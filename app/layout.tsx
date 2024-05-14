@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 
+import { ClerkProvider } from "@clerk/nextjs";
+
+import { ruRU } from "@clerk/localizations";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,8 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru">
-      <body className={GeistSans.className}>{children}</body>
-    </html>
+    <ClerkProvider localization={ruRU}>
+      <html lang="ru">
+        <body className={GeistSans.className}>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }
