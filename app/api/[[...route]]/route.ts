@@ -9,39 +9,20 @@ export const runtime = "edge";
 
 const app = new Hono().basePath("/api");
 
-app
-  .get("/hello", clerkMiddleware(), (c) => {
-    const auth = getAuth(c);
+app.get("/hello", clerkMiddleware(), (c) => {
+  const auth = getAuth(c);
 
-    if (!auth?.userId) {
-      return c.json({
-        error: "Вы не авторизованы!",
-      });
-    }
-
+  if (!auth?.userId) {
     return c.json({
-      message: "Hello HOMEBANK",
-      userId: auth.userId,
+      error: "Вы не авторизованы!",
     });
-  })
-  .post(
-    "/",
-    zValidator(
-      "json",
-      z.object({
-        name: z.string(),
-        userId: z.string(),
-      }),
-    ),
-    (c) => {
-      const { name, userId } = c.req.valid("json");
+  }
 
-      return c.json({
-        name: name,
-        userId: userId,
-      });
-    },
-  );
+  return c.json({
+    message: "Hello HOMEBANK",
+    userId: auth.userId,
+  });
+});
 
 export const GET = handle(app);
 export const POST = handle(app);
