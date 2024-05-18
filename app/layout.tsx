@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 
+import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
+import { QueryProvider } from "@/providers/query-provider";
+import { SheetProvider } from "@/providers/sheet-provider";
 
 import { ruRU } from "@clerk/localizations";
 
@@ -20,7 +23,13 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={ruRU}>
       <html lang="ru">
-        <body className={GeistSans.className}>{children}</body>
+        <body className={GeistSans.className}>
+          <QueryProvider>
+            <SheetProvider />
+            <Toaster />
+            {children}
+          </QueryProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
